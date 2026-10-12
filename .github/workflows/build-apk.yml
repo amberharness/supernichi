@@ -1,11 +1,32 @@
 
-      - name: Find project files
+name: Build Supernote Planner APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    name: Locate Android project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: List repository files
+        shell: bash
         run: |
           echo "Repository root:"
           pwd
-          echo "Root files:"
+          echo "Root directory contents:"
           ls -la
-          echo "Searching for Gradle settings:"
+          echo "Gradle settings files:"
           find . -type f \
             \( -name settings.gradle \
             -o -name settings.gradle.kts \) \
