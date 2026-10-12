@@ -1,47 +1,14 @@
 
-name: Build Supernote Planner APK
-
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-
-permissions:
-  contents: read
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out source code
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: '8.10.2'
-
-      - name: Verify project files
+      - name: Find project files
         run: |
-          ls -la supernichi/hobo
-          test -f supernichi/hobo/settings.gradle
-          test -f supernichi/hobo/app/build.gradle
-
-      - name: Build APK
-        working-directory: supernichi/hobo
-        run: gradle assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: supernote-planner-debug-apk
-          path: supernichi/hobo/**/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
-          retention-days: 14
+          echo "Repository root:"
+          pwd
+          echo "Root files:"
+          ls -la
+          echo "Searching for Gradle settings:"
+          find . -type f \
+            \( -name settings.gradle \
+            -o -name settings.gradle.kts \) \
+            -not -path '*/.git/*' \
+            -not -path '*/.gradle/*' \
+            -print
