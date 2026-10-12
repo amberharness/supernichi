@@ -25,16 +25,23 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.10.2'
 
-      - name: Build debug APK
+      - name: Verify project files
         run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
+          ls -la supernichi/hobo
+          test -f supernichi/hobo/settings.gradle
+          test -f supernichi/hobo/app/build.gradle
+
+      - name: Build APK
+        working-directory: supernichi/hobo
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: supernote-planner-debug-apk
-          path: '**/build/outputs/apk/debug/*.apk'
+          path: supernichi/hobo/**/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
