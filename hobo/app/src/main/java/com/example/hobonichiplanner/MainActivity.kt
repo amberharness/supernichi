@@ -18,6 +18,11 @@ import java.util.Locale
 import kotlin.math.max
 
 class MainActivity : Activity() {
+    data class Stroke(
+        val points: MutableList<Pair<Float, Float>>,
+        val eraser: Boolean,
+        val width: Float
+    )
     private lateinit var paper: PlannerView
     private lateinit var dateLabel: TextView
     private val prefs by lazy { getSharedPreferences("planner_pages", MODE_PRIVATE) }
@@ -117,11 +122,6 @@ class MainActivity : Activity() {
     }
 
     override fun onPause() { savePage(); super.onPause() }
-    data class Stroke(
-    val points: MutableList<Pair<Float, Float>>,
-    val eraser: Boolean,
-    val width: Float
-)
     inner class PlannerView : View(this@MainActivity) {
         private val strokes = mutableListOf<Stroke>()
         private var current: Stroke? = null
