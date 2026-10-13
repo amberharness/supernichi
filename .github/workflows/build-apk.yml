@@ -40,10 +40,12 @@ jobs:
           test -f build.gradle
           test -f app/build.gradle
 
-      - name: Build debug APK
+      
+      - name: Diagnose Java and Kotlin targets
         working-directory: hobo
-        run: gradle assembleDebug --stacktrace
-
+        run: |
+          gradle :app:compileDebugJavaWithJavac :app:compileDebugKotlin --info --stacktrace
+          
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
