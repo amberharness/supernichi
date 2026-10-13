@@ -1,55 +1,61 @@
-
 name: Build Supernote Planner APK
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+workflow_dispatch:
+push:
+branches:
+- main
 
 permissions:
-  contents: read
+contents: read
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+build:
+runs-on: ubuntu-latest
 
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+```
+steps:
+  - name: Check out repository
+    uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
+  - name: Set up Java
+    uses: actions/setup-java@v4
+    with:
+      distribution: temurin
+      java-version: '17'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: '8.10.2'
+  - name: Set up Gradle
+    uses: gradle/actions/setup-gradle@v6
+    with:
+      gradle-version: '8.10.2'
 
-      - name: Verify Android project
-        working-directory: hobo
-        run: |
-          echo "Project files:"
-          ls -la
-          echo "App module:"
-          ls -la app
-          test -f settings.gradle
-          test -f build.gradle
-          test -f app/build.gradle
+  - name: Verify Android project
+    working-directory: hobo
+    run: |
+      echo "Project files:"
+      ls -la
+      echo "App module:"
+      ls -la app
+      test -f settings.gradle
+      test -f build.gradle
+      test -f app/build.gradle
+      test -f app/src/main/java/com/example/hobonichiplanner/MainActivity.kt
 
-      
-      - name: Diagnose Java and Kotlin targets
-        working-directory: hobo
-        run: |
-          gradle :app:compileDebugJavaWithJavac :app:compileDebugKotlin --info --stacktrace
-          
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: supernote-planner-debug-apk
-          path: hobo/**/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
-          retention-days: 14
+  - name: Build debug APK
+    working-directory: hobo
+    run: gradle --no-daemon clean assembleDebug
+
+  - name: Verify APK exists
+    run: |
+      echo "Generated APK files:"
+      find hobo/app/build/outputs/apk -type f -name "*.apk"
+      test -f hobo/app/build/outputs/apk/debug/app-debug.apk
+
+  - name: Upload APK
+    uses: actions/upload-artifact@v4
+    with:
+      name: supernote-planner-debug-apk
+      path: hobo/app/build/outputs/apk/debug/app-debug.apk
+      if-no-files-found: error
+      retention-days: 14
+```
