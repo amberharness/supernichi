@@ -149,6 +149,11 @@ class MainActivity : Activity() {
         override fun onDraw(canvas: android.graphics.Canvas) {
             super.onDraw(canvas)
             canvas.drawColor(Color.WHITE)
+            val testPaint = android.graphics.Paint().apply {
+    color = android.graphics.Color.BLACK
+    strokeWidth = 4f
+}
+            canvas.drawLine(30f, 100f, 500f, 100f, testPaint)
             cell = max(22f, width / 28f)
             val header = 72f
             var x = 0f
