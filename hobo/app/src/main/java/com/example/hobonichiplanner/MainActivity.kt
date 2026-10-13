@@ -97,8 +97,8 @@ class MainActivity : Activity() {
         prefs.edit().putString(key(), arr.toString()).apply()
     }
 
-    private fun readStrokes(date: String): MutableList<PlannerView.Stroke> {
-        val result = mutableListOf<PlannerView.Stroke>()
+    private fun readStrokes(date: String): MutableList<Stroke> {
+        val result = mutableListOf<Stroke>()
         val raw = prefs.getString(date, null) ?: return result
         try {
             val arr = JSONArray(raw)
@@ -117,9 +117,12 @@ class MainActivity : Activity() {
     }
 
     override fun onPause() { savePage(); super.onPause() }
-
+    data class Stroke(
+    val points: MutableList<Pair<Float, Float>>,
+    val eraser: Boolean,
+    val width: Float
+)
     inner class PlannerView : View(this@MainActivity) {
-        data class Stroke(val points: MutableList<Pair<Float, Float>>, val eraser: Boolean, val width: Float)
         private val strokes = mutableListOf<Stroke>()
         private var current: Stroke? = null
         private var eraser = false
