@@ -110,7 +110,7 @@ class MainActivity : Activity() {
                     val xy = pts.getJSONArray(j)
                     points.add(Pair(xy.getDouble(0).toFloat(), xy.getDouble(1).toFloat()))
                 }
-                result.add(PlannerView.Stroke(points, obj.optBoolean("eraser"), obj.optDouble("width", 2.0).toFloat()))
+                result.add(Stroke(points, obj.optBoolean("eraser"), obj.optDouble("width", 2.0).toFloat()))
             }
         } catch (_: Exception) { }
         return result
