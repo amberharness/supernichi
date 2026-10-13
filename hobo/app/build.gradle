@@ -11,5 +11,8 @@ android {
         targetSdk 28
         versionCode 1
         versionName '0.1'
+kotlinOptions {
+    jvmTarget = '1.8'
+}
     }
 }
