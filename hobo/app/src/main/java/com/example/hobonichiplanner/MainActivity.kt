@@ -126,8 +126,14 @@ class MainActivity : Activity() {
         private val strokes = mutableListOf<Stroke>()
         private var current: Stroke? = null
         private var eraser = false
-        private val gridPaint = android.graphics.Paint(3).apply { color = 0xFFE2E2E2.toInt(); strokeWidth = 1f }
-        private val marginPaint = android.graphics.Paint(3).apply { color = 0xFFB8B8B8.toInt(); strokeWidth = 1.2f }
+         private val gridPaint = android.graphics.Paint(3).apply {
+            color = 0xFFB0B0B0.toInt()
+            strokeWidth = 1.5f
+        }
+        private val marginPaint = android.graphics.Paint(3).apply {
+            color = 0xFF777777.toInt()
+            strokeWidth = 2f
+        }
         private val inkPaint = android.graphics.Paint(3).apply {
             color = Color.BLACK; strokeWidth = 2.4f; style = android.graphics.Paint.Style.STROKE
             strokeCap = android.graphics.Paint.Cap.ROUND; strokeJoin = android.graphics.Paint.Join.ROUND
